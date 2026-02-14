@@ -1,0 +1,77 @@
+{
+  "name": "neovim-statusline",
+  "displayName": "Neovim Statusline",
+  "description": "A better-looking customizable statusline for VSCode Neovim",
+  "repository": "https://github.com/why-trv/vscode-neovim-statusline",
+  "publisher": "why-trv",
+  "license": "MIT",
+  "version": "0.1.0",
+  "keywords": ["neovim", "nvim", "statusline", "status", "mode", "ui"],
+  "categories": ["Other"],
+  "engines": { "vscode": "^1.89.0" },
+  "icon": "assets/icon.png",
+  "main": "out/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "extensionDependencies": ["asvetliakov.vscode-neovim", "subframe7536.custom-ui-style"],
+  "contributes": {
+    "commands": [
+      {
+        "command": "neovim-statusline.reload",
+        "title": "Reload",
+        "category": "Neovim Statusline"
+      },
+      {
+        "command": "neovim-statusline.copyCssPath",
+        "title": "Copy CSS Path (for manual injection)",
+        "category": "Neovim Statusline"
+      },
+      {
+        "command": "neovim-statusline.copyJsPath",
+        "title": "Copy JS Path (for manual injection)",
+        "category": "Neovim Statusline"
+      }
+    ],
+    "configuration": {
+      "title": "Neovim Statusline",
+      "properties": {
+        "neovim-statusline.styles": {
+          "type": "object",
+          "description": "CSS style groups. 'line' = whole statusline, 'mode' = mode badge (.nvim-mode), 'msg' = message span (.nvim-msg). Each is an object with keys default, normal, command, insert, visual, replace (default = all modes). Values are objects of CSS properties (kebab-case) to values. Only defined properties are emitted.",
+          "default": {
+            "line": { "default": { "font-family": "var(--cus-mono)" } },
+            "mode": {
+              "default": {
+                "color": "#1b1b1b",
+                "font-weight": "bold",
+                "padding-left": "12px",
+                "padding-right": "12px",
+                "margin-right": "12px"
+              },
+              "normal": { "background-color": "#a2a2a2" },
+              "command": { "background-color": "#e0af68" },
+              "insert": { "background-color": "#9ecf6a" },
+              "visual": { "background-color": "#bc9af8" },
+              "replace": { "background-color": "#f7768e" }
+            },
+            "msg": {}
+          }
+        },
+        "neovim-statusline.autoInject": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically add CSS/JS paths to Custom UI Style external.imports. Set false to manage paths manually (use Copy CSS Path / Copy JS Path)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p .",
+    "watch": "tsc -p . -w"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.89.0",
+    "typescript": "^5.0.0"
+  }
+}
