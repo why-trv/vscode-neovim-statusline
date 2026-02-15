@@ -10,8 +10,14 @@ This is a VS Code extension that leverages [Custom UI Style](https://marketplace
 
 Unlike extensions that use `colorCustomizations` to change status, this doesn't pollute your workspace `settings.json`, reacts to mode changes faster, and looks more in line with what you get with statusline plugins in Neovim itself.
 
+For example, it can look like this:
 <div align="center">
-<img src="https://github.com/why-trv/vscode-neovim-statusline/blob/assets/vscode-neovim-statusline-demo.png?raw=true" width="710" alt="Status bar with and without the extension">
+<img src="https://github.com/why-trv/vscode-neovim-statusline/blob/assets/statusline-extension.png?raw=true" width="830" alt="Status bar with the extension">
+</div>
+
+instead of this:
+<div align="center">
+<img src="https://github.com/why-trv/vscode-neovim-statusline/blob/assets/statusline-stock.png?raw=true" width="830" alt="Status bar without the extension">
 </div>
 
 ## Prerequisites
