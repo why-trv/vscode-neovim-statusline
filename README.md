@@ -3,7 +3,8 @@
 
 # Neovim Statusline for VS Code
 
-<a href="https://marketplace.visualstudio.com/items?itemName=why-trv.neovim-statusline"><img src="https://img.shields.io/visual-studio-marketplace/v/why-trv.neovim-statusline?color=bae&label=Visual%20Studio%20Marketplace"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=why-trv.neovim-statusline"><img src="https://img.shields.io/visual-studio-marketplace/v/why-trv.neovim-statusline?color=bae&label=Visual%20Studio%20Marketplace" alt="Visual Studio Marketplace"></a>
+<a href="https://open-vsx.org/extension/why-trv/neovim-statusline"><img src="https://img.shields.io/open-vsx/v/why-trv/neovim-statusline?color=90c&label=Open%20VSX" alt="Open VSX Registry"></a>
 </div>
 
 This is a VS Code extension that leverages [Custom UI Style](https://marketplace.visualstudio.com/items?itemName=subframe7536.custom-ui-style)'s CSS and JavaScript injection capabilities to achieve a nicer-looking and more functional statusline for [VSCode Neovim](https://marketplace.visualstudio.com/items?itemName=asvetliakov.vscode-neovim).
