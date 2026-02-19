@@ -5,7 +5,7 @@
   "repository": "https://github.com/why-trv/vscode-neovim-statusline",
   "publisher": "why-trv",
   "license": "MIT",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "neovim",
     "nvim",
