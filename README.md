@@ -18,8 +18,7 @@
 
 There are several extensions that use workspace-scope `colorCustomizations` to style the status bar. This extension takes a different approach that has a number of advantages:
 
-i- Doesn't pollute your `.vscode/settings.json` in your workspace.
-
+- Doesn't pollute your `.vscode/settings.json` in your workspace.
 - Reacts to mode changes instantly.
 - Doesn't trigger syntax highlight refresh on mode changes (which looks especially bad with semantic highlighting that takes some time to complete).
 - Can style individual UI elements - not just the whole status bar - and in many more ways.
@@ -116,7 +115,7 @@ For reference, here are the default values:
 
 Here's an annotated example of what you can do:
 
-```json
+```jsonc
 {
   "neovim-statusline.styles": {
     // "default" applies to all modes unless overridden by a mode-specific style
@@ -139,52 +138,52 @@ Here's an annotated example of what you can do:
       // These aliases can be used alone or as a part of your regular CSS selectors.
       "%statusBarItem": {
         // Default monospace font variable provided by Custom UI Style
-        "font-family": "var(--cus-mono)"
+        "font-family": "var(--cus-mono)",
       },
       "%modeBadge": {
         "color": "var(--vscode-statusBar-background)", // Using theme color variable provided by VS Code
         "padding-left": "5px", // Change badge padding
-        "padding-right": "5px"
+        "padding-right": "5px",
       },
       // Message parts have their text content doubled in 'data-text' attribute.
       // For example, you can use it to make it really obvious when you're recording a macro:
       "%messagePart[data-text^=\"recording @\"]": {
         "background-color": "#d35ca5", // A bright badge background
         "color": "var(--vscode-statusBar-background)", // Text color to match status bar background
-        "font-weight": "bold"
-      }
+        "font-weight": "bold",
+      },
     },
     // Styles for specific modes
     "normal": {
       // Make the current line tint less subtle than the default mix
       "%currentLine": {
-        "background-color": "color-mix(in srgb, var(--nvim-normal-primary) 10%, var(--vscode-editor-background))"
-      }
+        "background-color": "color-mix(in srgb, var(--nvim-normal-primary) 10%, var(--vscode-editor-background))",
+      },
     },
     "insert": {
       // You don't have to use the selector aliases if you don't want to.
       // For example, the following is equivalent to "%focusedEditor .monaco-editor-background":
       ".monaco-editor.focused .monaco-editor-background": {
         // This changes the background for the whole editor:
-        "background-color": "#112211"
+        "background-color": "#112211",
       },
       // And this is the current line in ANY editor:
       ".monaco-editor .view-overlays .current-line": {
-        "background-color": "#112f11"
-      }
+        "background-color": "#112f11",
+      },
     },
     "visual": {},
     "replace": {
       // Remove the current line highlight override for replace mode:
-      "%currentLine": null
+      "%currentLine": null,
     },
     "command": {
       // Hide the mode badge in command mode:
       "%modeBadge": {
-        "display": "none"
-      }
-    }
-  }
+        "display": "none",
+      },
+    },
+  },
 }
 ```
 
