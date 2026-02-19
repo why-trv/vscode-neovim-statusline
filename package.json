@@ -5,19 +5,33 @@
   "repository": "https://github.com/why-trv/vscode-neovim-statusline",
   "publisher": "why-trv",
   "license": "MIT",
-  "version": "0.1.2",
-  "keywords": ["neovim", "nvim", "statusline", "status", "mode", "ui"],
-  "categories": ["Other"],
-  "engines": { "vscode": "^1.89.0" },
+  "version": "0.2.0",
+  "keywords": [
+    "neovim",
+    "nvim",
+    "statusline",
+    "status",
+    "mode",
+    "ui"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "engines": {
+    "vscode": "^1.89.0"
+  },
   "icon": "assets/icon.png",
   "main": "out/extension.js",
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
     "commands": [
       {
         "command": "neovim-statusline.reload",
         "title": "Reload",
-        "category": "Neovim Statusline"
+        "category": "Neovim Statusline",
+        "enablement": "config.neovim-statusline.enabled == true"
       },
       {
         "command": "neovim-statusline.copyCssPath",
@@ -28,49 +42,137 @@
         "command": "neovim-statusline.copyJsPath",
         "title": "Copy JS Path (for manual injection)",
         "category": "Neovim Statusline"
+      },
+      {
+        "command": "neovim-statusline.toggleStyling",
+        "title": "Toggle Styling",
+        "category": "Neovim Statusline"
       }
     ],
     "configuration": {
       "title": "Neovim Statusline",
       "properties": {
+        "neovim-statusline.variables": {
+          "type": "object",
+          "default": {
+            "--nvim-normal-primary": "#79a2f8",
+            "--nvim-insert-primary": "#9ecf6a",
+            "--nvim-visual-primary": "#bc9af8",
+            "--nvim-replace-primary": "#f7768e",
+            "--nvim-command-primary": "#e0af68"
+          },
+          "description": "CSS custom properties for :root. Use in styles as var(--name). Keys can be '--name' or 'name'. Example: { \"--statusline-bg\": \"#333\", \"accent\": \"#79a2f8\" }."
+        },
         "neovim-statusline.styles": {
           "type": "object",
-          "description": "CSS style groups. 'line' = whole statusline, 'mode' = mode badge (.nvim-mode), 'msg' = message span (.nvim-msg). Each is an object with keys default, normal, command, insert, visual, replace (default = all modes). Values are objects of CSS properties (kebab-case) to values. Only defined properties are emitted.",
+          "description": "CSS styles per mode; selectors are scoped with body[data-nvim-mode=\"...\"]. Mode keys: default, normal, command, insert, visual, replace. Under each mode, keys are %predefinedName (e.g. %modeBadge, %cursor) or custom selector suffixes; use %name inside a key to reference built-ins (e.g. \"%message span.hint\": { \"color\": \"gray\" }). Predefined: statusBar, statusBarItem, modeBadge, message, cursor, fakeCursor, currentLine, focusedEditor.",
           "default": {
-            "line": { "default": { "font-family": "var(--cus-mono)" } },
-            "mode": {
-              "default": {
-                "color": "#1b1b1b",
-                "font-weight": "bold",
-                "padding-left": "12px",
-                "padding-right": "12px",
-                "margin-right": "12px"
+            "default": {
+              "%statusBarItem": {
+                "font-family": "var(--cus-mono)"
               },
-              "normal": { "background-color": "#a2a2a2" },
-              "command": { "background-color": "#e0af68" },
-              "insert": { "background-color": "#9ecf6a" },
-              "visual": { "background-color": "#bc9af8" },
-              "replace": { "background-color": "#f7768e" }
+              "%modeBadge": {
+                "color": "var(--vscode-statusBar-background)",
+                "font-weight": "bold",
+                "padding-left": "10px",
+                "padding-right": "10px"
+              },
+              "%messagePart": {
+                "display": "inline-block",
+                "padding-left": "10px",
+                "padding-right": "10px"
+              }
             },
-            "msg": {}
+            "normal": {
+              "%modeBadge": {
+                "background-color": "var(--nvim-normal-primary)"
+              },
+              "%cursor": {
+                "background-color": "var(--nvim-normal-primary)",
+                "border-color": "var(--nvim-normal-primary)"
+              },
+              "%currentLine": {
+                "background-color": "color-mix(in srgb, var(--nvim-normal-primary) 5%, var(--vscode-editor-background))"
+              },
+              "%currentLineNumber": {
+                "color": "color-mix(in srgb, var(--nvim-normal-primary) 40%, var(--vscode-editorLineNumber-activeForeground))"
+              }
+            },
+            "command": {
+              "%modeBadge": {
+                "background-color": "var(--nvim-command-primary)"
+              }
+            },
+            "insert": {
+              "%modeBadge": {
+                "background-color": "var(--nvim-insert-primary)"
+              },
+              "%cursor": {
+                "background-color": "var(--nvim-insert-primary)",
+                "border-color": "var(--nvim-insert-primary)"
+              },
+              "%currentLine": {
+                "background-color": "color-mix(in srgb, var(--nvim-insert-primary) 5%, var(--vscode-editor-background))"
+              },
+              "%currentLineNumber": {
+                "color": "color-mix(in srgb, var(--nvim-insert-primary) 40%, var(--vscode-editorLineNumber-activeForeground))"
+              }
+            },
+            "visual": {
+              "%modeBadge": {
+                "background-color": "var(--nvim-visual-primary)"
+              },
+              "%cursor": {
+                "background-color": "#0000",
+                "border-color": "#0000"
+              },
+              "%focusedEditor .wordHighlightText": {
+                "z-index": -1
+              },
+              "%currentLineNumber": {
+                "color": "color-mix(in srgb, var(--nvim-visual-primary) 40%, var(--vscode-editorLineNumber-activeForeground))"
+              }
+            },
+            "replace": {
+              "%modeBadge": {
+                "background-color": "var(--nvim-replace-primary)"
+              },
+              "%cursor": {
+                "background-color": "var(--nvim-replace-primary)",
+                "border-color": "var(--nvim-replace-primary)"
+              },
+              "%currentLine": {
+                "background-color": "color-mix(in srgb, var(--nvim-replace-primary) 5%, var(--vscode-editor-background))"
+              },
+              "%currentLineNumber": {
+                "color": "color-mix(in srgb, var(--nvim-replace-primary) 30%, var(--vscode-editorLineNumber-activeForeground))"
+              }
+            }
           }
         },
         "neovim-statusline.autoInject": {
           "type": "boolean",
           "default": true,
           "description": "Automatically add CSS/JS paths to Custom UI Style external.imports. Set false to manage paths manually (use Copy CSS Path / Copy JS Path)."
+        },
+        "neovim-statusline.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "When false, styling is disabled: imports are removed from Custom UI Style and the generated CSS is deleted. Toggled by the Toggle Styling command."
         }
       }
     }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p .",
-    "watch": "tsc -p . -w"
+    "compile": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --minify --sourcemap && esbuild src/statusline.js --outfile=assets/statusline.min.js --minify-whitespace --minify-syntax",
+    "watch": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --sourcemap --watch",
+    "check": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.89.0",
+    "esbuild": "^0.27.3",
     "typescript": "^5.0.0"
   }
 }
